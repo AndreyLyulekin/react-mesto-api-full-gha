@@ -1,0 +1,12 @@
+.element__like {
+  border: none;
+  background-image: url(../../../images/like.svg);
+  width: 22px;
+  height: 19px;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-size: 22px 19px;
+  background-position: center;
+  background-color: transparent;
+}

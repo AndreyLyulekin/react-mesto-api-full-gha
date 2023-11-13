@@ -1,0 +1,12 @@
+.profile__photo {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+@media screen and (min-width: 1280px) {
+    .profile__photo {
+    margin: 0;
+    }
+}

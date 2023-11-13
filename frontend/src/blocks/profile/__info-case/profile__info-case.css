@@ -1,0 +1,15 @@
+.profile__info-case {
+    margin: 0 auto;
+    padding-top: 27px;
+    padding-bottom: 3px;
+}
+
+@media screen and (min-width: 1280px) {
+    .profile__info-case {
+    margin: 0 0 0 30px;
+    padding: 0;
+    display: flex;
+    row-gap: 6px;
+    flex-direction: column;
+    }
+}

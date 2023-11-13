@@ -1,0 +1,14 @@
+.profile__case {
+    display: flex;
+    margin: 0 auto 0;
+    align-items: center;
+    padding: 0 35px;
+}
+
+@media screen and (min-width: 1280px) {
+    .profile__case {
+    padding: 0;
+    margin-left: 0;
+    column-gap: 8px;
+    }
+}

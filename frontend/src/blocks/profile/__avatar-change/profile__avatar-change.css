@@ -1,0 +1,23 @@
+.profile__avatar-change {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
+    background-image: url(../../../images/Edit-Button.svg);
+    background-repeat: no-repeat;
+    background-size: 26px 26px;
+    background-position: center;
+}
+
+.profile__avatar-change:hover {
+    position: absolute;
+    opacity: 1;
+}

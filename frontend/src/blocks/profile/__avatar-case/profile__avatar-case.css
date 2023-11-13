@@ -1,0 +1,10 @@
+.profile__avatar-case {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+}
+@media screen and (max-width: 1280px) {
+  .profile__avatar-case {
+    margin: auto;
+  }
+}
