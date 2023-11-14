@@ -106,7 +106,7 @@ module.exports.login = (req, res, next) => {
       const token = jwt.sign({ _id: user._id }, "super-secret-key", {
         expiresIn: "7d",
       });
-      return res.send({ token });
+      return res.status(httpConstants.HTTP_STATUS_OK).send({ token });
     })
     .catch((err) => {
       next(err);

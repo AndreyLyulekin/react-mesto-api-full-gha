@@ -1,7 +1,6 @@
 export class Api {
-  constructor({ baseUrl, token }) {
+  constructor({ baseUrl }) {
     this._url = baseUrl;
-    this._token = token;
   }
 
   _handleResponse = (res) => {
@@ -23,7 +22,7 @@ export class Api {
     return fetch(`${this._url}${endpoint}`, {
       method: "GET",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._handleResponse);
   }
@@ -34,7 +33,7 @@ export class Api {
     return fetch(`${this._url}${endpoint}`, {
       method: "POST",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: body && JSON.stringify(body),
@@ -47,7 +46,7 @@ export class Api {
     return fetch(`${this._url}${endpoint}`, {
       method: "PATCH",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
         "Content-Type": "application/json",
       },
       body: body && JSON.stringify(body),
@@ -60,7 +59,7 @@ export class Api {
     return fetch(`${this._url}${endpoint}`, {
       method: "PUT",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._handleResponse);
   }
@@ -70,7 +69,7 @@ export class Api {
     return fetch(`${this._url}${endpoint}`, {
       method: "DELETE",
       headers: {
-        authorization: this._token,
+        authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }).then(this._handleResponse);
   }

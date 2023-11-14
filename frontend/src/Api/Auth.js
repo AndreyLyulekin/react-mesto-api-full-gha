@@ -34,15 +34,9 @@ export const authorize = ({ password, email }) => {
     body: JSON.stringify({ password, email }),
   }).then((response) => {
     const status = response.status;
-    if (response.ok) {
       return response.json().then((data) => {
         return { data, status };
       });
-    } else {
-      return response.json().then((data) => {
-        return { data, status };
-      });
-    }
   });
 };
 

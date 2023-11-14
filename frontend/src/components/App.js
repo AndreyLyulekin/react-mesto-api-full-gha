@@ -16,12 +16,10 @@ import { Routes, Route } from "react-router";
 import Login from "./Login";
 import Register from "./Register";
 import ProtectedRouteElement from "./ProtectedRoutes";
-import useLocalStorage from "../helpers/useLocalStorage";
 import { useNavigate } from "react-router-dom";
 import { checkTokenValidity } from "../Api/Auth";
 
 function App() {
-  const [token, setToken] = useLocalStorage("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [logInEmail, setLogInEmail] = useState("");
   const [popupProfileState, setStatePopupProfile] = useState(false);
@@ -34,6 +32,8 @@ function App() {
     isLoading: false,
     idCard: "",
   });
+  
+  const navigate = useNavigate();
 
   const closeAllPopups = (currentPopup) => {
     currentPopup(false);
@@ -132,33 +132,29 @@ function App() {
   }
   useEffect(() => {
     if (isLoggedIn) {
+      navigate("/");
       Promise.all([userService.getCurrentUser(), cardService.getAllCards()])
         .then(([userInfoAnswer, cardsAnswer]) => {
           setCurrentUser({ ...userInfoAnswer });
           setApiCardsState([...cardsAnswer]);
+          setLogInEmail(userInfoAnswer.email)
         })
         .catch((e) => console.error(e?.reason || e?.message));
     }
-  }, [isLoggedIn]);
-
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/");
-    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
   useEffect(() => {
     const handleAuth = async (token) => {
       try {
         const response = await checkTokenValidity(token);
-        setLogInEmail(response.data.email);
+        setLogInEmail(response.email);
         setIsLoggedIn(true);
       } catch (error) {
         console.error(error?.reason || error?.message);
       }
     };
-    handleAuth(token);
+    handleAuth(localStorage.getItem('token'));
   }, []);
 
   return (
@@ -183,7 +179,6 @@ function App() {
         <Header
           logInEmail={logInEmail}
           isLoggedIn={isLoggedIn}
-          setToken={setToken}
           setLogInEmail={setLogInEmail}
           setIsLoggedIn={setIsLoggedIn}
         />
@@ -209,7 +204,7 @@ function App() {
               />
 
               <Route path="/sign-up" element={<Register />} />
-              <Route path="/sign-in" element={<Login setToken={setToken} setIsLoggedIn={setIsLoggedIn} />} />
+              <Route path="/sign-in" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             </Routes>
           </CardsContext.Provider>
         </LoaderContext.Provider>

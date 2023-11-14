@@ -3,7 +3,7 @@ import AuthForm from "./AuthForm";
 import { authorize } from "../Api/Auth";
 import PopupAuth from "./PopupAuth";
 
-export default function Login({ setToken, setIsLoggedIn }) {
+export default function Login({ setIsLoggedIn }) {
   const [isOpenedPopup, setIsOpenedPopup] = React.useState(false);
   const [popupInfoText, setPopupInfoText] = React.useState(false);
   const [isResponseGood, setIsResponseGood] = React.useState(false);
@@ -14,10 +14,12 @@ export default function Login({ setToken, setIsLoggedIn }) {
         const response = await authorize(password, email);
         if (response.status === 200) {
           setIsOpenedPopup(true);
-          setToken(response.data.token);
-          setIsLoggedIn(true);
+          localStorage.setItem('token', response.data.token);
           setPopupInfoText("Логин успешен!");
           setIsResponseGood(true);
+          setTimeout(() => {
+            setIsLoggedIn(true);
+          }, 1000)
         } else {
           setIsOpenedPopup(true);
           setPopupInfoText("Что-то пошло не так! Попробуйте ещё раз.");
@@ -44,6 +46,3 @@ export default function Login({ setToken, setIsLoggedIn }) {
     </>
   );
 }
-
-//vasiliysome@yandex.ru
-//somepassword
