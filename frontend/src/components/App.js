@@ -1,27 +1,30 @@
-import "../index.css";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import { useEffect, useState } from "react";
-import ImagePopup from "./ImagePopup";
-import { userService } from "../Api/UserService";
-import { cardService } from "../Api/CardsService";
-import CurrentUserContext from "../contexts/CurrentUserContext";
-import CardsContext from "../contexts/CardsContext";
-import LoaderContext from "../contexts/LoaderContext";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
-import AddPlacePopup from "./AddPlacePopup";
-import { Routes, Route } from "react-router";
-import Login from "./Login";
-import Register from "./Register";
-import ProtectedRouteElement from "./ProtectedRoutes";
-import { useNavigate } from "react-router-dom";
-import { checkTokenValidity } from "../Api/Auth";
+import '../index.css';
+import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+
+import {
+  Header,
+  Main,
+  ImagePopup,
+  Footer,
+  cardService,
+  userService,
+  CurrentUserContext,
+  CardsContext,
+  LoaderContext,
+  EditProfilePopup,
+  EditAvatarPopup,
+  AddPlacePopup,
+  Login,
+  Register,
+  ProtectedRouteElement,
+  checkTokenValidity,
+} from './index';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [logInEmail, setLogInEmail] = useState("");
+  const [logInEmail, setLogInEmail] = useState('');
   const [popupProfileState, setStatePopupProfile] = useState(false);
   const [popupAvatarState, setStatePopupAvatar] = useState(false);
   const [selectedCardState, setStateCardState] = useState(false);
@@ -30,9 +33,9 @@ function App() {
   const [apiCardsState, setApiCardsState] = useState([]);
   const [isLoading, setIsLoading] = useState({
     isLoading: false,
-    idCard: "",
+    idCard: '',
   });
-  
+
   const navigate = useNavigate();
 
   const closeAllPopups = (currentPopup) => {
@@ -51,7 +54,7 @@ function App() {
   };
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
 
     if (isLiked) {
       setIsLoading({ isLoading: true, idCard: card._id });
@@ -61,7 +64,7 @@ function App() {
           setApiCardsState((state) => state.map((c) => (c._id === card._id ? newCard : c)));
         })
         .catch((e) => console.log(e))
-        .finally(() => setIsLoading({ isLoading: false, idCard: "" }));
+        .finally(() => setIsLoading({ isLoading: false, idCard: '' }));
     } else {
       setIsLoading({ isLoading: true, idCard: card._id });
       cardService
@@ -70,14 +73,14 @@ function App() {
           setApiCardsState((state) => state.map((c) => (c._id === card._id ? newCard : c)));
         })
         .catch((e) => console.log(e))
-        .finally(() => setIsLoading({ isLoading: false, idCard: "" }));
+        .finally(() => setIsLoading({ isLoading: false, idCard: '' }));
     }
   }
   function handleCardDelete(card) {
     cardService
       .deleteCard(card._id)
       .then((currentCard) => {
-        if (currentCard.message !== "Пост удалён") return;
+        if (currentCard.message !== 'Карточка удалена') return;
 
         setApiCardsState((state) => state.filter((cardToDelete) => card._id !== cardToDelete._id));
       })
@@ -132,16 +135,16 @@ function App() {
   }
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");
+      navigate('/');
       Promise.all([userService.getCurrentUser(), cardService.getAllCards()])
         .then(([userInfoAnswer, cardsAnswer]) => {
           setCurrentUser({ ...userInfoAnswer });
           setApiCardsState([...cardsAnswer]);
-          setLogInEmail(userInfoAnswer.email)
+          setLogInEmail(userInfoAnswer.email);
         })
         .catch((e) => console.error(e?.reason || e?.message));
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -158,7 +161,7 @@ function App() {
   }, []);
 
   return (
-    <div className="root">
+    <div className='root'>
       <CurrentUserContext.Provider value={currentUser}>
         <EditProfilePopup
           onUpdateUser={(e, name, description) => handleSubmitUserInfo(e, name, description)}
@@ -175,7 +178,10 @@ function App() {
           isOpen={selectedCardState}
           onClose={setStateCardState}
         />
-        <ImagePopup props={popupSelectedCardState} setStateSelectedCard={setStateSelectedCard} />
+        <ImagePopup
+          props={popupSelectedCardState}
+          setStateSelectedCard={setStateSelectedCard}
+        />
         <Header
           logInEmail={logInEmail}
           isLoggedIn={isLoggedIn}
@@ -186,7 +192,7 @@ function App() {
           <CardsContext.Provider value={apiCardsState}>
             <Routes>
               <Route
-                path="/"
+                path='/'
                 element={
                   <ProtectedRouteElement
                     element={() => (
@@ -203,8 +209,14 @@ function App() {
                 }
               />
 
-              <Route path="/sign-up" element={<Register />} />
-              <Route path="/sign-in" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+              <Route
+                path='/sign-up'
+                element={<Register />}
+              />
+              <Route
+                path='/sign-in'
+                element={<Login setIsLoggedIn={setIsLoggedIn} />}
+              />
             </Routes>
           </CardsContext.Provider>
         </LoaderContext.Provider>

@@ -1,7 +1,6 @@
-import React from "react";
-import AuthForm from "./AuthForm";
-import { authorize } from "../Api/Auth";
-import PopupAuth from "./PopupAuth";
+import React from 'react';
+
+import { AuthForm, authorize, PopupAuth } from './index';
 
 export default function Login({ setIsLoggedIn }) {
   const [isOpenedPopup, setIsOpenedPopup] = React.useState(false);
@@ -15,14 +14,14 @@ export default function Login({ setIsLoggedIn }) {
         if (response.status === 200) {
           setIsOpenedPopup(true);
           localStorage.setItem('token', response.data.token);
-          setPopupInfoText("Логин успешен!");
+          setPopupInfoText('Логин успешен!');
           setIsResponseGood(true);
           setTimeout(() => {
             setIsLoggedIn(true);
-          }, 1000)
+          }, 1000);
         } else {
           setIsOpenedPopup(true);
-          setPopupInfoText("Что-то пошло не так! Попробуйте ещё раз.");
+          setPopupInfoText('Что-то пошло не так! Попробуйте ещё раз.');
           setIsResponseGood(false);
         }
       };
@@ -39,9 +38,11 @@ export default function Login({ setIsLoggedIn }) {
         popupInfoText={popupInfoText}
         isResponseGood={isResponseGood}
       />
-      <div className="signUp__container">
-        <h1 className="signUp__header">Вход</h1>
-        <AuthForm btnText={"Войти"} onSubmit={handleButtonClick}></AuthForm>
+      <div className='signUp__container'>
+        <h1 className='signUp__header'>Вход</h1>
+        <AuthForm
+          btnText={'Войти'}
+          onSubmit={handleButtonClick}></AuthForm>
       </div>
     </>
   );

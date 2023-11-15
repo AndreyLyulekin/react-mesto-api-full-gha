@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
-import LoaderContext from "../contexts/LoaderContext";
-import { useContext } from "react";
-import CurrentUserContext from "../contexts/CurrentUserContext";
+import { useState, useEffect, useContext } from 'react';
+
+import { LoaderContext, CurrentUserContext } from './index';
 
 export default function Like({ cardData, onCardLike, currentCardId }) {
   const currentUser = useContext(CurrentUserContext);
   const pending = useContext(LoaderContext);
+  const [isLoading, setIsLoading] = useState(false);
   const { likes } = cardData;
-  const [isLoading, setIsLoading] = React.useState(false);
 
-  const isLiked = likes.some((i) => i._id === currentUser._id);
-  const cardLikeButtonClassName = `element__like ${isLiked && "element__like_active"}`;
+  const isLiked = likes.some((i) => i === currentUser._id);
+  const cardLikeButtonClassName = `element__like ${isLiked && 'element__like_active'}`;
   const handleLikeClick = (card) => {
     onCardLike(card);
   };
@@ -20,18 +19,20 @@ export default function Like({ cardData, onCardLike, currentCardId }) {
   }, [pending, currentCardId]);
 
   return (
-    <div id="element__like-section" className="element__like-section">
+    <div
+      id='element__like-section'
+      className='element__like-section'>
       {!isLoading ? (
         <button
           onClick={() => handleLikeClick(cardData)}
           className={cardLikeButtonClassName}
-          aria-label="Кнопка лайка"
-          type="button"
+          aria-label='Кнопка лайка'
+          type='button'
         />
       ) : (
-        <span className="loader"></span>
+        <span className='loader'></span>
       )}
-      <p className="element__likesCount">{likes.length}</p>
+      <p className='element__likesCount'>{likes.length}</p>
     </div>
   );
 }

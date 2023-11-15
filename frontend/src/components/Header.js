@@ -1,57 +1,65 @@
-import { Link } from "react-router-dom";
-import logo from "../images/logo.svg";
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+
+import { logo } from './index';
 
 function Header({ logInEmail, isLoggedIn, setLogInEmail, setIsLoggedIn }) {
   const location = useLocation();
-  const [textAuth, setTextAuth] = useState("Войти");
-  const [linkRoute, setLinkRoute] = useState("/sign-up");
+  const [textAuth, setTextAuth] = useState('Войти');
+  const [linkRoute, setLinkRoute] = useState('/sign-up');
 
   const signOut = () => {
-    setLogInEmail("");
+    setLogInEmail('');
     localStorage.setItem('token', '');
-    setTextAuth("Регистрация");
-    setLinkRoute("/sign-up");
+    setTextAuth('Регистрация');
+    setLinkRoute('/sign-up');
     setIsLoggedIn(false);
   };
 
   useEffect(() => {
     if (isLoggedIn) {
-      setTextAuth("Выйти");
-      setLinkRoute("/sign-in");
+      setTextAuth('Выйти');
+      setLinkRoute('/sign-in');
     }
     if (!isLoggedIn) {
       switch (location.pathname) {
-        case "/":
-          setTextAuth("Войти");
-          setLinkRoute("/sign-in");
+        case '/':
+          setTextAuth('Войти');
+          setLinkRoute('/sign-in');
           break;
-        case "/sign-in":
-          setTextAuth("Регистрация");
-          setLinkRoute("/sign-up");
+        case '/sign-in':
+          setTextAuth('Регистрация');
+          setLinkRoute('/sign-up');
           break;
         default:
-          setTextAuth("Войти");
-          setLinkRoute("/sign-in");
+          setTextAuth('Войти');
+          setLinkRoute('/sign-in');
           break;
       }
     }
   }, [location, isLoggedIn]);
 
   return (
-    <header className="header">
-      <Link to="/" className="signup__link">
-        <img src={logo} className="header__logo" alt="Логотип" />
+    <header className='header'>
+      <Link
+        to='/'
+        className='signup__link'>
+        <img
+          src={logo}
+          className='header__logo'
+          alt='Логотип'
+        />
       </Link>
-      <div className="header__userContainer">
-        <p className="header__user-email">{logInEmail}</p>
-        <Link to={linkRoute} className="signup__link">
+      <div className='header__userContainer'>
+        <p className='header__user-email'>{logInEmail}</p>
+        <Link
+          to={linkRoute}
+          className='signup__link'>
           <button
             onClick={signOut}
-            type="button"
-            aria-label="Перейти на страницу авторизации"
-            className="header__textAuth">
+            type='button'
+            aria-label='Перейти на страницу авторизации'
+            className='header__textAuth'>
             {textAuth}
           </button>
         </Link>

@@ -1,7 +1,7 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
 export default function AuthForm({ btnText, onSubmit }) {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const passwordRef = useRef();
 
   const handleSubmit = (evt) => {
@@ -14,9 +14,21 @@ export default function AuthForm({ btnText, onSubmit }) {
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <input placeholder="E-mail" className="auth__input" onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" name="password" placeholder="Пароль" className="auth__input" ref={passwordRef} />
-      <button type="submit" className="auth__btn">
+      <input
+        placeholder='E-mail'
+        className='auth__input'
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type='password'
+        name='password'
+        placeholder='Пароль'
+        className='auth__input'
+        ref={passwordRef}
+      />
+      <button
+        type='submit'
+        className='auth__btn'>
         {btnText}
       </button>
     </form>
