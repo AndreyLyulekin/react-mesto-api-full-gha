@@ -35,7 +35,7 @@ app.use(cors);
 app.use(requestLogger);
 
 // ROUTES METHOD
-app.use("/", require("./routes/index"));
+app.use("/api/", require("./routes/index"));
 
 app.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));
