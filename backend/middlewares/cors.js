@@ -2,7 +2,9 @@ const ALLOWED_CORS = [
   "http://localhost:3000",
   "http://localhost:3001",
   "http://ilovecats.nomoredomainsmonster.ru/",
-  "https://ilovecats.nomoredomainsmonster.ru/"
+  "https://ilovecats.nomoredomainsmonster.ru/",
+  "http://62.84.124.9",
+  "https://62.84.124.9"
 ];
 const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
 
