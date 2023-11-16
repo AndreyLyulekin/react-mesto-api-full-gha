@@ -1,6 +1,6 @@
 // IMPORT PACKAGES
 const express = require("express");
-require("dotenv").config();
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV}` });
 
 const app = express();
 const mongoose = require("mongoose");
@@ -13,8 +13,8 @@ const cors = require("./middlewares/cors");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 // CONFIG VARIABLES
-const { PORT, DB_URL } = process.env;
-console.log(PORT, DB_URL);
+const { PORT, DB_URL, API_URL } = process.env;
+console.log(PORT, DB_URL, API_URL);
 const NotFoundError = require("./errors/NotFound");
 
 // PARSERS METHODS
@@ -40,7 +40,7 @@ app.get("/crash-test", () => {
     throw new Error("Сервер сейчас упадёт");
   }, 0);
 });
-app.use("/api/", require("./routes/index"));
+app.use(`${API_URL}`, require("./routes/index"));
 
 app.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));
