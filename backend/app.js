@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // DATABASE CONNECT
-mongoose.connect(DB_URL, {
+mongoose.connect(DB_URL || "mongodb://127.0.0.1:27017/mestodb", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -58,4 +58,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.listen(PORT);
+app.listen(PORT || 3000);
