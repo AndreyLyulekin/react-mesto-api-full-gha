@@ -1,44 +1,47 @@
+// IMPORT PACKAGES
 const express = require("express");
-const cors = require("cors");
 
 const app = express();
-const { PORT = 3000, DB_URL = "mongodb://127.0.0.1:27017/mestodb" } = process.env;
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const { errors } = require("celebrate");
+
+// IMPORT MIDDLEWARES
+const cors = require("./middlewares/cors");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
+
+// CONFIG VARIABLES
+const { PORT, DB_URL } = process.env;
 const NotFoundError = require("./errors/NotFound");
 
-app.use(helmet());
-
+// PARSERS METHODS
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// DATABASE CONNECT
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const corsOptions = {
-  origin: "http://localhost:3001",
-  optionsSuccessStatus: 200, // некоторые браузеры могут требовать этот параметр
-};
+// DEFENSE MIDDLEWARES
+app.use(helmet());
+app.use(cors);
 
-app.use(cors(corsOptions));
-
+// REQUEST LOGGER
 app.use(requestLogger);
 
+// ROUTES METHOD
 app.use("/", require("./routes/index"));
 
 app.use("*", (req, res, next) => {
   next(new NotFoundError("Страница не найдена"));
 });
 
+// ERRORS
 app.use(errorLogger);
-
 app.use(errors());
-
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
   res.status(statusCode).send({
