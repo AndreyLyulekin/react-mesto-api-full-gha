@@ -1,5 +1,6 @@
 // IMPORT PACKAGES
 const express = require("express");
+require("dotenv").config();
 
 const app = express();
 const mongoose = require("mongoose");
@@ -13,6 +14,7 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 // CONFIG VARIABLES
 const { PORT, DB_URL } = process.env;
+console.log(PORT, DB_URL);
 const NotFoundError = require("./errors/NotFound");
 
 // PARSERS METHODS
