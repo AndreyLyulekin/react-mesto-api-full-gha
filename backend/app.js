@@ -15,7 +15,6 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 // CONFIG VARIABLES
 const { PORT, DB_URL } = process.env;
 const API_URL = process.env.NODE_ENV !== "development" ? "/" : "/api/";
-console.log(API_URL);
 const NotFoundError = require("./errors/NotFound");
 
 // PARSERS METHODS
@@ -36,6 +35,11 @@ app.use(cors);
 app.use(requestLogger);
 
 // ROUTES METHOD
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Сервер сейчас упадёт");
+  }, 0);
+});
 app.use(`${API_URL}`, require("./routes/index"));
 
 app.use("*", (req, res, next) => {
