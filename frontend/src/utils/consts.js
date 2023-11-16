@@ -1,3 +1,3 @@
 export const apiCredentials = {
-  baseUrl: "http://ilovecats.nomoredomainsmonster.ru/api"
+  baseUrl: "https://ilovecats.nomoredomainsmonster.ru/api"
 };
