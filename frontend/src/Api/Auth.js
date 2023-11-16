@@ -1,4 +1,4 @@
-const baseUrlAuth = "http://localhost:3000";
+const baseUrlAuth = "http://ilovecats.nomoredomainsmonster.ru/api";
 
 // Регистрации пользователя:
 
