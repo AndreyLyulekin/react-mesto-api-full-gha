@@ -35,6 +35,11 @@ app.use(cors);
 app.use(requestLogger);
 
 // ROUTES METHOD
+app.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Сервер сейчас упадёт");
+  }, 0);
+});
 app.use("/api/", require("./routes/index"));
 
 app.use("*", (req, res, next) => {
