@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 const httpConstants = require("http2").constants;
 const jwt = require("jsonwebtoken");
@@ -6,6 +8,8 @@ const User = require("../models/user");
 const BadRequestError = require("../errors/BadRequest");
 const NotFoundError = require("../errors/NotFound");
 const ConflictError = require("../errors/Conflict");
+
+const { JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -103,7 +107,7 @@ module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, "super-secret-key", {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
       return res.status(httpConstants.HTTP_STATUS_OK).send({ token });
